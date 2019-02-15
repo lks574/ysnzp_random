@@ -37,17 +37,18 @@ class DBHelper(context: Context?, name: String?, factory: SQLiteDatabase.CursorF
 //        Log.e("Asdasd", check.toString())
     }
 
-    fun findAllPerson(): ArrayList<String>{
-        val query = "SELECT $personName FROM $peopleTable"
+    fun findAllPerson(): ArrayList<PersonDBModel>{
+        val query = "SELECT * FROM $peopleTable"
 
         val db = this.writableDatabase
         val cursor = db.rawQuery(query, null)
-        val personModel = ArrayList<String>()
+        val personModel = ArrayList<PersonDBModel>()
 
         if (cursor.moveToFirst()){
             while (!cursor.isAfterLast) {
-                val name = cursor.getString(0)
-                personModel.add(name)
+                val index = cursor.getInt(0)
+                val name = cursor.getString(1)
+                personModel.add(PersonDBModel(index, name))
                 cursor.moveToNext()
             }
             cursor.close()
@@ -58,7 +59,7 @@ class DBHelper(context: Context?, name: String?, factory: SQLiteDatabase.CursorF
 
     fun deletePerson(index: Int){
         val db = this.writableDatabase
-        db.delete(peopleTable, personIndex, arrayOf(index.toString()))
+        db.delete(peopleTable, "$personIndex = ?", arrayOf(index.toString()))
     }
 }
 

@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ysnzp_random.R
+import com.example.ysnzp_random.model.CleanModel
 import kotlinx.android.synthetic.main.item_people.view.*
 
-class CleanAdapter(val items: ArrayList<String>, val context: Context) : RecyclerView.Adapter<CleanAdapter.CleanViewHolder>() {
+class CleanAdapter(private val items: ArrayList<CleanModel>, private val context: Context) : RecyclerView.Adapter<CleanAdapter.CleanViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CleanViewHolder {
         return CleanViewHolder(LayoutInflater.from(context).inflate(R.layout.item_people, parent, false))
@@ -19,10 +20,16 @@ class CleanAdapter(val items: ArrayList<String>, val context: Context) : Recycle
     }
 
     override fun onBindViewHolder(holder: CleanViewHolder, position: Int) {
-        holder.recyclerPeopleText.text = items[position]
+        holder.recyclerCleanText.text = items[position].name
+        holder.recyclerCleanText.tag = position
+        holder.personNumber.text = items[position].number.toString()
+        holder.personNumber.tag = position
     }
 
+
+
     inner class CleanViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val recyclerPeopleText = view.recycler_clean_text
+        val recyclerCleanText = view.recycler_clean_text
+        val personNumber = view.clean_person_number
     }
 }
